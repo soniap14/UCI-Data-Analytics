@@ -1,0 +1,61 @@
+Sub stock_data()
+
+'Loop through all sheets
+
+Dim ws As Worksheet
+
+For Each ws In Worksheets
+
+'Determine the Last Row
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+
+Dim Ticker_Name As String
+Dim Stock_Volume As Double
+
+'Add column for Ticker and Total stock volume
+ws.Cells(1, "I").Value = “Ticker”
+ws.Cells(1, "J").Value = "Stock_Volume"
+
+
+Dim Volume As Double
+Volume = 0
+Dim Row As Integer
+Row = 2
+
+For i = 2 To LastRow
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+'Set Ticker name
+Ticker_Name = Cells(i, 1).Value
+   
+'Add to the total volume
+Volume = Volume + Cells(i, 1 + 6).Value
+  
+' Print the Ticker name
+      Range("I" & Row).Value = Ticker_Name
+
+      ' Print the toptal stock volume
+      Range("J" & Row).Value = Volume
+
+      ' Add one to the Row
+      Row = Row + 1
+      
+      ' Reset the Volume
+       Volume = 0
+
+    ' If the cell immediately following a row is the same
+    Else
+
+      ' Add to the stock total
+      Volume = Volume + Cells(i, 7).Value
+
+    End If
+
+  Next i
+  
+  Next ws
+
+End Sub
+
+
+
